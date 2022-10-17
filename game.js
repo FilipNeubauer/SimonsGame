@@ -4,6 +4,8 @@ let gamePatern = [];
 
 let userClickedPattern = [];
 
+let started = false;
+
 const colors = ["red", "blue", "green", "yellow"];
 
 
@@ -29,7 +31,8 @@ function buttonSopund(color) {
 }
 
 
-function handler() {
+function handler(cond) {
+    if (cond) {
     $(".btn").click(function () {
         let userChosenColour = this.id;
         buttonSopund(userChosenColour);
@@ -45,7 +48,7 @@ function handler() {
         }
     })
 }
-
+}
 
 function nextSequence() {
     userClickedPattern = [];
@@ -81,6 +84,7 @@ function checkAnswer(currentLevel) {
         // }
         console.log("good");
     } else {
+        $(".btn").off("click");
         console.log("wrong");   
         let wrongSound = new Audio("sounds/wrong.mp3");
         wrongSound.play();
@@ -97,16 +101,24 @@ function startOver() {
     level = 0;
     gamePatern = [];
     started = [];
+    started = false;
     document.addEventListener("keydown", function () {
-        nextSequence();}, {once:true});
+        nextSequence();
+        started = true;
+        $(".btn").on("click");
+        handler(started);
+    }, {once:true});
 }
 
 document.addEventListener("keydown", function () {
-    nextSequence();}, {once:true});
+    nextSequence();
+started = true;
+handler(started);
+}, {once:true});
 
 
 
-handler();
+// handler();
 
 
 
