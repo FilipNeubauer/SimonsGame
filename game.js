@@ -66,21 +66,40 @@ function animatePress(currentColor) {
 }
 
 function checkAnswer(currentLevel) {
-    if (currentLevel == gamePatern[gamePatern.length - 1]) {
-        for (let i = 0; i < userClickedPattern.length; i++) {
-            if (userClickedPattern[i] == gamePatern[i]) {
-                continue;
-            } else {
-                console.log("wrong");
-                break;
-            }
+    if (currentLevel == gamePatern[userClickedPattern.length - 1]) {
+        // console.log(gamePatern);
+        // console.log(userClickedPattern);
+        // for (let i = 0; i < userClickedPattern.length; i++) {
+        //     if (userClickedPattern[i] == gamePatern[i]) {
+        //         continue;
+        //     } else {
+        //         console.log("wrong");
+        //         break;
+        //     }
+
         
-        }
+        // }
+        console.log("good");
     } else {
         console.log("wrong");   
+        let wrongSound = new Audio("sounds/wrong.mp3");
+        wrongSound.play();
+        $("body").toggleClass("game-over");
+        setTimeout(function () {
+            $("body").toggleClass("game-over");
+        }, 200)
+        $("h1").html("Game over, Press Any Key to Restart");
+        startOver();
     }
 }
 
+function startOver() {
+    level = 0;
+    gamePatern = [];
+    started = [];
+    document.addEventListener("keydown", function () {
+        nextSequence();}, {once:true});
+}
 
 document.addEventListener("keydown", function () {
     nextSequence();}, {once:true});
